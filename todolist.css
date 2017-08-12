@@ -1,0 +1,13 @@
+.container {
+    width: 600px;
+    margin: 50px auto;
+}
+
+#thing {
+    resize: none;
+    width: 300px;
+}
+
+#time {
+    width: 300px;
+}

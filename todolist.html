@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>todolist</title>
+        <link rel="stylesheet" href="lib/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="todolist.css">
+        <script src="lib/jquery-3.2.1.min.js" charset="utf-8"></script>
+        <script src="lib/bootstrap-3.3.7-dist/js/bootstrap.min.js" charset="utf-8"></script>
+        <script src="lib/vue.min.js" charset="utf-8"></script>
+        <script src="todolist.js" charset="utf-8"></script>
+    </head>
+    <body>
+        <div class="container">
+            <!--添加事件-->
+            <form id="add" role="form">
+                <div class="form-group">
+                    <label for="time">时间</label>
+                    <input id="time" class="form-control" type="text" placeholder="请输入时间" v-model="time">
+                </div>
+                <div class="form-group">
+                    <label for="thing">事件</label>
+                    <textarea id="thing" class="form-control" rows="3" placeholder="请输入事件" v-model="content"></textarea>
+                </div>
+                <div class="form-group">
+                    <input type="button" class="btn btn-primary" value="添加" @click="addThing()">
+                    <input type="reset" class="btn btn-warning" value="重置">
+                </div>
+            </form>
+            <!--显示事件-->
+            <div id="show">
+                <table class="table table-bordered table-striped">
+                    <caption><h4>待办事件</h4></caption>
+                    <tr>
+                        <th width="100px">序号</th>
+                        <th width="150px">时间</th>
+                        <th>事件</th>
+                        <th width="100px">操作</th>
+                    </tr>
+                    <tr v-for="(thing, index) in things">
+                        <td>{{index+1}}</td>
+                        <td>
+                            <span v-show="!thing.editable">{{thing.time}}</span>
+                            <span v-show="thing.editable"><input type="text" v-model="thing.time"></span>
+                        </td>
+                        <td>
+                            <span v-show="!thing.editable">{{thing.content}}</span>
+                            <span v-show="thing.editable"><input type="text" v-model="thing.content"></span>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-default btn-sm" @click="editThing(thing)">
+                                <span class="glyphicon glyphicon-pencil" v-show="!thing.editable"></span>
+                                <span class="glyphicon glyphicon-ok" v-show="thing.editable"></span>
+                            </button>
+                            <button type="button" class="btn btn-default btn-sm" @click="deleteThing(index)">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr class="text-center" v-show="things.length == 0">
+                        <td  class="text-center text-muted" colspan="4">暂无待办事件</td>
+                    </tr>
+                    <tr class="text-right" v-show="things.length != 0">
+                        <td colspan="4"><input type="button" class="btn btn-danger btn-sm" value="全部删除" @click="deleteAll()"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>
